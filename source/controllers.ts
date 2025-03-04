@@ -7,6 +7,7 @@ export type ContactsControllerOptions = {
 
 class ContactsController {
   contacts: ContactsCollection;
+  
   constructor() {
     this.contacts = new ContactsCollection();
     this.contacts.load();

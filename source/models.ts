@@ -14,15 +14,22 @@ class ContactsCollection {
   data: Contact[] = [];
 
   load(){
-    const json = jsonfile.readFileSync(__dirname + "./source/contacts.json");
+    const json = jsonfile.readFileSync(__dirname + "/contacts.json");
     this.data = json; 
   }
   getAll(){
     return this.data;
   }
-  addOne(contact: Contact){
-    this.data.push(contact);
-  }
+  addOne(contact: Contact) {
+    // Verifica si el ID ya existe en la colección
+    const existe = this.data.some(item => item.id === contact.id);
+
+    if (existe) {
+        console.log("No se puede agregar por ID ya existente");
+    } else {
+        this.data.push(contact);
+    }
+}
   save(){
     jsonfile.writeFileSync("./source/contacts.json", this.data);
   }
