@@ -1,43 +1,58 @@
+
 import { ContactsCollection } from "./models";
 import { ContactsController, ContactsControllerOptions } from "./controllers";
-import minimist from "minimist";
+import * as minimist from "minimist";
 
 function parseaParams(argv: string[]): ContactsControllerOptions {
-  const resultado = minimist(argv, );
-  console.log(resultado);
+  const resultado = minimist(argv);
+
   return {
     action: resultado.action,
     params: JSON.parse(resultado.params),
   };
 }
+
 function main() {
   const controller = new ContactsController();
   const params = parseaParams(process.argv.slice(2));
-  console.log(params);
   const result = controller.processOptions(params);
   console.log(result);
 }
 
 main();
+
 /*
 function parseaParams(argv: string[]): ContactsControllerOptions {
   const resultado = minimist(argv, {
-    string: ["params"], // Asegura que params se trate como string
-    alias: { a: "action", p: "params" } // Opcional: alias cortos
+    string: ["params"], // Asegura que 'params' sea tratado como string
+    alias: { a: "action", p: "params" }
   });
-  console.log(resultado);
+
   return {
     action: resultado.action,
-    params: resultado.params ? JSON.parse(resultado.params) : {}, // Maneja JSON correctamente
+    params: resultado.params ? safeParseJSON(resultado.params) : {}, // ✅ Maneja JSON seguro
   };
 }
+
+function safeParseJSON(jsonString: string): any {
+  try {
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error("⚠️ Error al parsear JSON en params:", jsonString);
+    return {}; // Devuelve un objeto vacío si hay error
+  }
+}
+
 function main() {
   const controller = new ContactsController();
   const params = parseaParams(process.argv.slice(2));
-  console.log(params);
+
+  console.log("Parámetros procesados:", params);
+
   const result = controller.processOptions(params);
-  console.log(result);
+  console.log("Resultado final:", result);
 }
 
 main();
+
 */
