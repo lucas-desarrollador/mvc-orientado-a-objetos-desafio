@@ -23,9 +23,8 @@ class ContactsCollection {
   addOne(contact: Contact) {
     // Verifica si el ID ya existe en la colección
     const existe = this.data.some(item => item.id === contact.id);
-
     if (existe) {
-        console.log("No se puede agregar por ID ya existente");
+        console.log("No se puede agregar! ID ya existente");
     } else {
         this.data.push(contact);
     }

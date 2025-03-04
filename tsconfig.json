@@ -2,7 +2,7 @@
   "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
     "noUnusedLocals": false,
-    "module": "commonjs",
+    "module": "CommonJS",
     "target": "es6",
     "outDir": "build",
     "resolveJsonModule": true,

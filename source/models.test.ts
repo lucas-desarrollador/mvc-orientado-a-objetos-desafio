@@ -16,6 +16,7 @@ test("Testeo el addOne del modelo", (t) => {
     name: "Marce",
   };
   model.addOne(mockContact);
+  //console.log(model.getAll());
   t.deepEqual(model.getAll(), [mockContact]);
 });
 
@@ -23,8 +24,8 @@ test("Testeo el save del modelo", (t) => {
   const model = new ContactsCollection();
   model.load();
   const mockContact = {
-    id: 30,
-    name: "Marce",
+    id: 7,
+    name: "Gabi",
   };
   model.addOne(mockContact);
   model.save();
@@ -37,10 +38,11 @@ test("Testeo el save del modelo", (t) => {
 test("Testeo el getOneById del modelo", (t) => {
   const model = new ContactsCollection();
   const mockContact = {
-    id: 31,
-    name: "Marce",
+    id: 22,
+    name: "Viki",
   };
   model.addOne(mockContact);
-  const one = model.getOneById(31);
+  const one = model.getOneById(22);
   t.deepEqual(one, mockContact);
+  //console.log(model.getAll());
 });

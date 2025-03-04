@@ -1,29 +1,17 @@
 import test from "ava";
-import { ContactsController } from "./controllers";
+import { ContactsController, ContactsControllerOptions } from "./controllers";
 import * as contactsObject from "./contacts.json";
-
-interface ContactsControllerOptions {
-  action: "get" | "save" | null | undefined;
-  params: { id: number; name: string };
-}
 
 test("Testeo el constructor del controller", (t) => {
   const modelController = new ContactsController();
   modelController.contacts.load();
+  console.log("contacts del constructor", modelController.contacts.getAll());
   t.truthy(modelController); // Verifica que se haya creado la instancia
 
   t.deepEqual(contactsObject, modelController.contacts.getAll());
-
-  const mockContact = {
-    id: 13,
-    name: "Cocoloco",
-  };
-
-  modelController.contacts.addOne(mockContact);
-  const chekContact = modelController.processOptions({ action: "get", params: mockContact });
-  t.deepEqual(chekContact, mockContact);
-  const chekContact2 = modelController.processOptions({ action: "save", params: {id:8, name:"Lucas"} });
-  t.falsy(chekContact2);
+ 
+  // Verifica que no se pueda agregar un contacto con un ID existente
+  t.falsy(modelController.contacts.addOne({ id: 1, name: "Ana" }));
 });
 
 test("Testeo el método processOptions", (t) => {
@@ -34,16 +22,24 @@ test("Testeo el método processOptions", (t) => {
 
   const options: ContactsControllerOptions = {
     action: "get",
-    params: { id: 1, name: "Test Name" } // Cambia esto según lo que necesites probar
+    params: { id: 11, name: "Tomas" } 
   };
-
   const result = controller.processOptions(options);
-  
   // Define el valor esperado
-  const expectedValue = { id: 1, name: "Ana" }; // Asegúrate de que este contacto exista
-
+  const expectedValue = { id: 11, name: "Tomas" };
   // Verifica que el resultado sea el esperado
   t.deepEqual(result, expectedValue);
+
+  const controller2 = new ContactsController();
+  controller2.contacts.load();
+  const options2: ContactsControllerOptions = {
+    action: "save",
+    params: { id: 43, name: "Benji" } 
+  };
+  const result2 = controller2.processOptions(options2);
+  t.deepEqual(result2, contactsObject);
+  console.log("coleccion del options2 con SAVE");
+  console.log(result2);
 });
 
 
